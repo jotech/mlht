@@ -1,6 +1,6 @@
 params.samples = "samples.csv"
-params.bakta_db = "/work_beegfs/sukem066/dat/db/bakta/db"
-params.eggnog_db = "/work_beegfs/sukem066/dat/db/eggnog"
+params.bakta_db = "/dat/db/bakta/db"
+params.eggnog_db = "/dat/db/eggnog"
 
 process EGGNOG {
     conda 'bioconda::eggnog-mapper'
