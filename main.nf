@@ -179,15 +179,19 @@ process KOFAMSCAN {
 }
 
 process ABRICATE {
-    conda 'abricate'
+    conda 'abricate_env.yaml'
+
     input:
+        tuple val(id), path(ffn)
     output:
+        path "abricate"
     script:
     """
+    mkdir abricate
     abricate \
-        --db vfdb "$id.ffn" > $output/abricate/${id}_vfdb.tbl
+        --db vfdb "$ffn" > abricate/${id}_vfdb.tbl
     abricate \
-        --db resfinder "$id.ffn\$" > $output/abricate/${id}_resfinder.tbl
+        --db resfinder "$ffn\$" > abricate/${id}_resfinder.tbl
     """
 }
 
