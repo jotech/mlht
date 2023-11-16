@@ -196,12 +196,17 @@ process ABRICATE {
 }
 
 process ANTISMASH {
-    conda 'antismash'
+    conda 'bioconda::antismash'
+
+    publishDir "out/", mode: 'copy'
+
     input:
+        tuple val(id), path(fasta)
     output:
-        path "data"
+        path "antismash"
     script:
     """
+    mkdir -p antismash/$id
     antismash \
         --cb-general \
         --cb-knownclusters \
@@ -209,8 +214,8 @@ process ANTISMASH {
         --asf \
         --pfam2go \
         --cc-mibig \
-        --genefinding-tool prodigal -c $cores \
-        --output-dir $output/antismash/$id \
+        --genefinding-tool prodigal -c $task.cpus \
+        --output-dir antismash/$id \
         --output-basename $id $fasta
     """
 }
