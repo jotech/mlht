@@ -1,0 +1,7 @@
+name: barrnap-env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - barrnap

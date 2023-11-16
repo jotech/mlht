@@ -1,5 +1,5 @@
 params.samples = "samples.csv"
-params.bakta_db = "dbs/bakta/db"
+params.bakta_db = false
 params.eggnog_db = false
 
 process EGGNOG {
@@ -21,71 +21,80 @@ process EGGNOG {
 process EGGNOG_DB {
     conda 'bioconda::eggnog-mapper'
 
-    publishDir "dbs/eggnog", mode: 'move'
+    publishDir "dbs/", mode: 'copy'
 
     output:
-        path "data"
+        path "eggnog"
     script:
     """
     mkdir -p data
     download_eggnog_data.py -y \
-        --data_dir ./data
+        --data_dir ./eggnog
     """
 
 }
 
 process BAKTA_DB {
-    conda 'bioconda::bakta'
+    conda 'bakta-env.yaml'
 
-    publishDir "dbs/", mode: 'move'
+    publishDir "dbs/", mode: 'copy'
 
     output:
         path "$outdir"
     script:
-    out_dir = "bakta_db"
+    outdir = "bakta_db"
     """
     bakta_db download --output $outdir --type full
     """
 }
 
 process BAKTA {
-    conda 'bioconda::bakta'
+    conda 'bakta-env.yaml'
+
+    publishDir "out/", mode: 'copy'
 
     input:
         tuple val(id), path(faa)
         path db
     output:
-        path "data"
+        path "bakta"
     script:
     """
-    mkdir -p data
+    mkdir -p bakta
     bakta \
         --threads $task.cpus \
         --prefix "$id" \
-        --output data \
-        --db $db "$fna"
+        --output bakta \
+        --db $db "$faa"
     """
 }
 
 process GRODON {
     // codon usage bias (gRodon)
+    // from: https://github.com/jlw-ecoevo/gRodon2
+    container "shengwei/grodon:latest"
+
     input:
     output:
+        path "grodon"
     script:
     """
-    Rscript ~/uni/life_history/src/codon.R -i $output/bakta/$id/$id.ffn -o $output/grodon
+    Rscript ~/uni/life_history/src/codon.R -i $ffn -o grodon
     """
 }
 
 process BARRNAP {
-    conda 'barrnap'
+    conda 'barrnap-env.yaml'
+
     input:
+        tuple val(id), path(fna)
     output:
+        path "${id}_16S.fna"
     script:
     """
-    barrnap "$id.fna" \
-        --threads $cores \
-        --outseq "$output/barrnap/${id}_16S.fna"
+    barrnap "$fna" \
+        --threads $task.cpus \
+        --outseq "${id}_16S.fna"
     """
 }
 
@@ -192,8 +201,8 @@ workflow {
         .splitCsv( header: true)
         .map { row -> tuple( row.id, file(row.file)) }
 
-    eggnog_db = params.eggnog_db ? file(params.eggnog_db) : EGGNOG_DB()
-    EGGNOG(samples, eggnog_db)
+    // eggnog_db = params.eggnog_db ? file(params.eggnog_db) : EGGNOG_DB()
+    // EGGNOG(samples, eggnog_db)
 
     bakta_db = params.bakta_db ? file(params.bakta_db) : BAKTA_DB()
     BAKTA(samples, bakta_db)
