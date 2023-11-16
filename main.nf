@@ -34,19 +34,35 @@ process EGGNOG_DB {
 
 }
 
+process BAKTA_DB {
+    conda 'bioconda::bakta'
+
+    publishDir "dbs/", mode: 'move'
+
+    output:
+        path "$outdir"
+    script:
+    out_dir = "bakta_db"
+    """
+    bakta_db download --output $outdir --type full
+    """
+}
+
 process BAKTA {
     conda 'bioconda::bakta'
+
     input:
         tuple val(id), path(faa)
-        path db from params.bakta_db
+        path db
     output:
         path "data"
     script:
     """
+    mkdir -p data
     bakta \
         --threads $task.cpus \
         --prefix "$id" \
-        --output . \
+        --output data \
         --db $db "$fna"
     """
 }
@@ -176,10 +192,10 @@ workflow {
         .splitCsv( header: true)
         .map { row -> tuple( row.id, file(row.file)) }
 
-    
     eggnog_db = params.eggnog_db ? file(params.eggnog_db) : EGGNOG_DB()
     EGGNOG(samples, eggnog_db)
 
-
+    bakta_db = params.bakta_db ? file(params.bakta_db) : BAKTA_DB()
+    BAKTA(samples, bakta_db)
 
 }
