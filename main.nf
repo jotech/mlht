@@ -133,32 +133,44 @@ process DBCAN {
     conda 'bioconda::dbcan'
 
     input:
+        tuple val(id), path(fna)
+        path db
     output:
-        path "data"
+        path outdir
     script:
+    outdir = "dbscan"
     """
-    run_dbcan "$id.fna" prok \
-        --out_dir "$output/dbcan/${id}" -c cluster \
+    run_dbcan "$fna" prok \
+        --out_dir $outdir -c cluster \
         --cgc_substrate \
-        --pul ~/dat/db/dbcan/PUL.faa \
-        --db_dir ~/dat/db/dbcan \
+        --pul $db/PUL.faa \
+        --db_dir $db \
         --use_signalP=TRUE \
         --signalP_path /zfshome/sukem066/software/signalp-4.1/signalp \
-        --hmm_cpu $cores \
-        --dia_cpu $cores \
-        --tf_cpu $cores \
-        --stp_cpu $cores
+        --hmm_cpu $taks.cpus \
+        --dia_cpu $taks.cpus \
+        --tf_cpu $taks.cpus \
+        --stp_cpu $taks.cpus
     """
 }
 
 process KOFAMSCAN {
-    conda 'kofam'
+    conda 'bioconda::kofamscan'
+
+    publishDir "out/kofam", mode: 'copy'
+
     input:
+        tuple val(id), path(faa)
     output:
+        path "${id}.txt"
     script:
     """
     exec_annotation \
-        --cpu $cores -f mapper -p ~/dat/db/kofam/profiles -k ~/dat/db/kofam/ko_list -o $output/kofam/$id.txt "$id.faa"
+        --cpu $tak.cpus
+        -f mapper
+        -p ~/dat/db/kofam/profiles
+        -k ~/dat/db/kofam/ko_list
+        -o ${id}.txt "$faa"
     """
 }
 
