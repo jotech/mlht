@@ -161,15 +161,19 @@ process KOFAMSCAN {
 
     input:
         tuple val(id), path(faa)
+        path profiles
+        path ko_list
     output:
         path "${id}.txt"
     script:
     """
+    gunzip $profiles
+    gunzip $ko_list
     exec_annotation \
         --cpu $tak.cpus
         -f mapper
-        -p ~/dat/db/kofam/profiles
-        -k ~/dat/db/kofam/ko_list
+        -p profiles
+        -k ko_list
         -o ${id}.txt "$faa"
     """
 }
@@ -251,4 +255,7 @@ workflow {
     bakta_db = params.bakta_db ? file(params.bakta_db) : BAKTA_DB()
     BAKTA(samples, bakta_db)
 
+    kofam_profiles = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz")
+    kofam_ko_list = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz")
+    KOFAMSCAN_DB(samples, kofam_profiles, kofam_ko_list)
 }
