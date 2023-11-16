@@ -1,6 +1,6 @@
 params.samples = "samples.csv"
-params.bakta_db = "/dat/db/bakta/db"
-params.eggnog_db = "/dat/db/eggnog"
+params.bakta_db = "dbs/bakta/db"
+params.eggnog_db = false
 
 process EGGNOG {
     conda 'bioconda::eggnog-mapper'
@@ -21,7 +21,8 @@ process EGGNOG {
 process EGGNOG_DB {
     conda 'bioconda::eggnog-mapper'
 
-    input:
+    publishDir "dbs/eggnog", mode: 'move'
+
     output:
         path "data"
     script:
@@ -34,7 +35,7 @@ process EGGNOG_DB {
 }
 
 process BAKTA {
-    conda 'bakta'
+    conda 'bioconda::bakta'
     input:
         tuple val(id), path(faa)
         path db from params.bakta_db
@@ -175,5 +176,10 @@ workflow {
         .splitCsv( header: true)
         .map { row -> tuple( row.id, file(row.file)) }
 
-    EGGNOG(samples, EGGNOG_DB())
+    
+    eggnog_db = params.eggnog_db ? file(params.eggnog_db) : EGGNOG_DB()
+    EGGNOG(samples, eggnog_db)
+
+
+
 }
