@@ -2,6 +2,8 @@ params.samples = "samples.csv"
 params.bakta_db = false
 params.eggnog_db = false
 
+include { DBCAN } from "./subworkflows/dbcan"
+
 process EGGNOG {
     conda 'bioconda::eggnog-mapper'
 
@@ -111,10 +113,10 @@ process KOFAMSCAN {
         path "${id}.txt"
     script:
     """
-    gunzip $profiles
-    gunzip $ko_list
+    gzip -d --force $profiles
+    gzip -d --force $ko_list
     exec_annotation \
-        --cpu $tak.cpus
+        --cpu $task.cpus
         -f mapper
         -p profiles
         -k ko_list
@@ -171,7 +173,7 @@ process GUTSMASH {
     script:
     """
     ~/software/gutsmash/run_gutsmash.py \
-        --cpus $cores \
+        --cpus $task.cpus \
         --genefinding-tool prodigal \
         --cb-knownclusters \
         --cb-general \
@@ -205,10 +207,12 @@ workflow {
     eggnog_db = params.eggnog_db ? file(params.eggnog_db) : EGGNOG_DB()
     // EGGNOG(samples, eggnog_db)
 
-    // bakta_db = params.bakta_db ? file(params.bakta_db) : BAKTA_DB()
+    bakta_db = params.bakta_db ? file(params.bakta_db) : BAKTA_DB()
     // BAKTA(samples, bakta_db)
 
-    // kofam_profiles = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz")
-    // kofam_ko_list = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz")
-    // KOFAMSCAN(samples, kofam_profiles, kofam_ko_list)
+    kofam_profiles = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz")
+    kofam_ko_list = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz")
+    KOFAMSCAN(samples, kofam_profiles, kofam_ko_list)
+
+    DBCAN()
 }

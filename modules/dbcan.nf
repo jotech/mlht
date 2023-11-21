@@ -12,7 +12,7 @@ process DBCAN_PREPARE {
         path dbCAN_pul
         path dbCAN_sub
         path CAZyDB
-        path HMM
+        path HMM name: "dbCAN.txt"
         path tcdb
         path tf1
         path tf2
@@ -25,28 +25,37 @@ process DBCAN_PREPARE {
     script:
     """
     mkdir dbcan
+    mv $substrate_mapping dbcan
+    mv $pul dbcan
+    mv $dbCAN_pul_xlsx dbcan
+    mv $dbCAN_pul_txt dbcan
+    mv $dbCAN_pul dbcan
+    mv $dbCAN_sub dbcan
+    mv $CAZyDB dbcan
+    mv $HMM dbcan
+    mv $tcdb dbcan
+    mv $tf1 dbcan
+    mv $tf2 dbcan
+    mv $stp dbcan
+    mv $ecoli_fna dbcan
+    mv $ecoli_faa dbcan
+    mv $ecoli_gff dbcan
+
     cd dbcan
-    mv $substrate_mapping .
-    mv $pul . && makeblastdb -in PUL.faa -dbtype prot
-    mv $dbCAN_pul_xlsx .
-    mv $dbCAN_pul_txt .
-    mv $dbCAN_pul . && tar xvf dbCAN-PUL.tar.gz
-    mv $dbCAN_sub . && hmmpress dbCAN_sub.hmm
-    mv $CAZyDB . && diamond makedb --in CAZyDB.08062022.fa -d CAZy
-    mv $HMM . && mv dbCAN-HMMdb-V11.txt dbCAN.txt && hmmpress dbCAN.txt
-    mv $tcdb . && diamond makedb --in tcdb.fa -d tcdb
-    mv $tf1 . && hmmpress tf-1.hmm
-    mv $tf2 . && hmmpress tf-2.hmm
-    mv $stp . && hmmpress stp.hmm
-    cd ../
-    mv ecoli_fna .
-    mv ecoli_faa .
-    mv ecoli_gff .
+    makeblastdb -in $pul -dbtype prot
+    tar xvf $dbCAN_pul
+    hmmpress $dbCAN_sub
+    diamond makedb --in $CAZyDB -d CAZy
+    hmmpress $HMM
+    diamond makedb --in $tcdb -d tcdb
+    hmmpress $tf1
+    hmmpress $tf2
+    hmmpress $stp
     """
 
 }
 
-process DBCAN {
+process DBCAN_TASK {
     conda 'bioconda::dbcan'
 
     input:
