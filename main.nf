@@ -3,6 +3,7 @@ params.bakta_db = false
 params.eggnog_db = false
 
 include { DBCAN } from "./subworkflows/dbcan"
+include { GRODON } from "./modules/grodon"
 
 process EGGNOG {
     conda 'bioconda::eggnog-mapper'
@@ -60,6 +61,7 @@ process BAKTA {
         path db
     output:
         path "bakta"
+        tuple val(id), path("bakta/*/*.fnn") fnn
     script:
     """
     mkdir -p bakta
@@ -196,11 +198,13 @@ workflow {
     // EGGNOG(samples, eggnog_db)
 
     bakta_db = params.bakta_db ? file(params.bakta_db) : BAKTA_DB()
-    // BAKTA(samples, bakta_db)
+    BAKTA(samples, bakta_db)
 
-    kofam_profiles = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz")
-    kofam_ko_list = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz")
-    KOFAMSCAN(samples, kofam_profiles, kofam_ko_list)
+    GRODON(BAKTA.fnn)
+
+    // kofam_profiles = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz", type: 'file')
+    // kofam_ko_list = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz")
+    // KOFAMSCAN(samples, kofam_profiles)
 
     DBCAN()
 }
