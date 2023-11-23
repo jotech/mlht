@@ -76,7 +76,7 @@ process BAKTA {
 process KOFAMSCAN {
     conda 'bioconda::kofamscan'
 
-    publishDir "out/kofam", mode: 'copy'
+    publishDir "${params.output_dir}/kofam", mode: 'copy'
 
     input:
         tuple val(id), path(faa)
@@ -86,8 +86,8 @@ process KOFAMSCAN {
         path "${id}.txt"
     script:
     """
-    gzip -d --force $profiles
-    gzip -d --force $ko_list
+    tar -xvzf $profiles
+    gunzip $ko_list
     exec_annotation \
         --cpu $task.cpus
         -f mapper
