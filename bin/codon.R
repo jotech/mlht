@@ -25,7 +25,7 @@ if ( !is.null(opt$help) | is.null(opt$fasta) | is.null(opt$output) ) {
 
 fasta <- opt$fasta
 output <- opt$output
-if( !file.exists(fasta) ) stop(paste("Genome file not found."), fasta)
+if( !file.exists(fasta) ) stop(paste("Genome file not found. "), fasta)
 if( !dir.exists(output) ) stop("Output directory not found.")
 
 id <- tools::file_path_sans_ext(basename(fasta))
