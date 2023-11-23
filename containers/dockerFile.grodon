@@ -1,0 +1,5 @@
+FROM shengwei/grodon:latest
+
+# Install r-getopt
+RUN Rscript -e "install.packages('getopt', repos='http://cran.us.r-project.org')"
+

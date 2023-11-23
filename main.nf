@@ -71,20 +71,6 @@ process BAKTA {
     """
 }
 
-process GRODON {
-    // codon usage bias (gRodon)
-    // from: https://github.com/jlw-ecoevo/gRodon2
-    container "shengwei/grodon:latest"
-
-    input:
-    output:
-        path "grodon"
-    script:
-    """
-    Rscript ~/uni/life_history/src/codon.R -i $ffn -o grodon
-    """
-}
-
 process BARRNAP {
     conda 'barrnap-env.yaml'
 
