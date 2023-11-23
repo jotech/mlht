@@ -117,7 +117,7 @@ process ABRICATE {
 process ANTISMASH {
     conda 'bioconda::antismash'
 
-    publishDir "out/", mode: 'copy'
+    publishDir "${params.output_dir}/", mode: 'copy'
 
     input:
         tuple val(id), path(fasta)
