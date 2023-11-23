@@ -5,6 +5,7 @@ params.output_dir = "out"
 
 include { DBCAN } from "./subworkflows/dbcan"
 include { GRODON } from "./modules/grodon"
+include { BARRNAP } from "./modules/barrnap"
 
 process EGGNOG {
     conda 'bioconda::eggnog-mapper'
@@ -187,6 +188,8 @@ workflow {
     BAKTA(samples, bakta_db)
 
     GRODON(BAKTA.fnn)
+
+    BARRNAP(samples)
 
     // kofam_profiles = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz", type: 'file')
     // kofam_ko_list = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz")
