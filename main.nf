@@ -54,21 +54,21 @@ process BAKTA_DB {
 process BAKTA {
     conda 'bakta-env.yaml'
 
-    publishDir "out/", mode: 'copy'
+    publishDir "${params.output_dir}/bakta/", mode: 'copy'
 
     input:
         tuple val(id), path(faa)
         path db
     output:
-        path "bakta"
-        tuple val(id), path("bakta/*/*.fnn") fnn
+        path "*"
+        tuple val(id), path("*/*.fnn") fnn
     script:
     """
     mkdir -p bakta
     bakta \
         --threads $task.cpus \
         --prefix "$id" \
-        --output bakta \
+        --output . \
         --db $db "$faa"
     """
 }
