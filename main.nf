@@ -167,18 +167,20 @@ process ANTISMASH {
 }
 
 process GUTSMASH {
-    conda 'gutsmash'
+    container "nmendozam/gutsmash"
     input:
+        tuple val(id), path(fasta)
     output:
+        path id
     script:
     """
-    ~/software/gutsmash/run_gutsmash.py \
+    gutsmash \
         --cpus $task.cpus \
         --genefinding-tool prodigal \
         --cb-knownclusters \
         --cb-general \
         --enable-genefunctions \
-        --output-dir $output/gutsmash/$id $fasta
+        --output-dir $id $fasta
     """
 }
 
