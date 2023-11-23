@@ -5,52 +5,35 @@ process DBCAN_PREPARE {
     publishDir "dbs/", mode: 'copy'
 
     input:
-        path substrate_mapping
-        path pul
-        path dbCAN_pul_xlsx
-        path dbCAN_pul_txt
-        path dbCAN_pul
-        path dbCAN_sub
-        path CAZyDB
-        path HMM name: "dbCAN.txt"
-        path tcdb
-        path tf1
-        path tf2
-        path stp
-        path ecoli_fna
-        path ecoli_faa
-        path ecoli_gff
+        path substrate_mapping, stageAs: 'dbcan/*'
+        path pul, stageAs: 'dbcan/*'
+        path dbCAN_pul_xlsx, stageAs: 'dbcan/*'
+        path dbCAN_pul_txt, stageAs: 'dbcan/*'
+        path dbCAN_pul, stageAs: 'dbcan/*'
+        path dbCAN_sub, stageAs: 'dbcan/*'
+        path CAZyDB, stageAs: 'dbcan/*'
+        path HMM, name: "dbCAN.txt", stageAs: 'dbcan/*'
+        path tcdb, stageAs: 'dbcan/*'
+        path tf1, stageAs: 'dbcan/*'
+        path tf2, stageAs: 'dbcan/*'
+        path stp, stageAs: 'dbcan/*'
+        path ecoli_fna, stageAs: 'dbcan/*'
+        path ecoli_faa, stageAs: 'dbcan/*'
+        path ecoli_gff, stageAs: 'dbcan/*'
     output:
         path "dbcan"
     script:
     """
-    mkdir dbcan
-    mv $substrate_mapping dbcan
-    mv $pul dbcan
-    mv $dbCAN_pul_xlsx dbcan
-    mv $dbCAN_pul_txt dbcan
-    mv $dbCAN_pul dbcan
-    mv $dbCAN_sub dbcan
-    mv $CAZyDB dbcan
-    mv $HMM dbcan
-    mv $tcdb dbcan
-    mv $tf1 dbcan
-    mv $tf2 dbcan
-    mv $stp dbcan
-    mv $ecoli_fna dbcan
-    mv $ecoli_faa dbcan
-    mv $ecoli_gff dbcan
-
     cd dbcan
-    makeblastdb -in $pul -dbtype prot
-    tar xvf $dbCAN_pul
-    hmmpress $dbCAN_sub
-    diamond makedb --in $CAZyDB -d CAZy
-    hmmpress $HMM
-    diamond makedb --in $tcdb -d tcdb
-    hmmpress $tf1
-    hmmpress $tf2
-    hmmpress $stp
+    makeblastdb -in $pul.fileName.name -dbtype prot
+    tar xvf $dbCAN_pul.fileName.name
+    hmmpress $dbCAN_sub.fileName.name
+    diamond makedb --in $CAZyDB.fileName.name -d CAZy
+    hmmpress $HMM.fileName.name
+    diamond makedb --in $tcdb.fileName.name -d tcdb
+    hmmpress $tf1.fileName.name
+    hmmpress $tf2.fileName.name
+    hmmpress $stp.fileName.name
     """
 
 }
@@ -62,7 +45,7 @@ process DBCAN_TASK {
         tuple val(id), path(fna)
         path db
     output:
-        path outdir
+        path outdir, name "database"
     script:
     outdir = "dbscan"
     """

@@ -25,10 +25,10 @@ workflow DBCAN {
         DBCAN_PREPARE(
             substrate_mapping, pul, dbCAN_pul_xlsx,
             dbCAN_pul_txt, dbCAN_pul, dbCAN_sub, CAZyDB,
-            HMM, tcdb, tf1, tf2, stp
+            HMM, tcdb, tf1, tf2, stp, ecoli_fna, ecoli_faa, ecoli_gff
         )
 
-    //     DBCAN_TASK((samples.id, samples.file), DBCAN_PREPARE.out, ecoli_fna, ecoli_faa, ecoli_gff)
+    //     DBCAN_TASK((samples.id, samples.file), DBCAN_PREPARE.out)
     // emit:
     //     DBCAN_TASK.out
 }
