@@ -1,6 +1,7 @@
 params.samples = "samples.csv"
 params.bakta_db = false
 params.eggnog_db = false
+params.output_dir = "out"
 
 include { DBCAN } from "./subworkflows/dbcan"
 include { GRODON } from "./modules/grodon"
