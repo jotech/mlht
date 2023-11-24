@@ -54,6 +54,7 @@ process BAKTA_DB {
 }
 
 process BAKTA {
+    tag "$id"
     conda 'bakta-env.yaml'
 
     publishDir "${params.output_dir}/bakta/", mode: 'copy'
@@ -62,11 +63,10 @@ process BAKTA {
         tuple val(id), path(faa)
         path db
     output:
-        path "*"
-        tuple val(id), path("*/*.fnn") fnn
+        path("*")
+        tuple val(id), path("*/*.fnn"), emit: fnn
     script:
     """
-    mkdir -p bakta
     bakta \
         --threads $task.cpus \
         --prefix "$id" \
@@ -96,23 +96,6 @@ process KOFAMSCAN {
         -p profiles
         -k ko_list
         -o ${id}.txt "$faa"
-    """
-}
-
-process ABRICATE {
-    conda 'abricate_env.yaml'
-
-    input:
-        tuple val(id), path(ffn)
-    output:
-        path "abricate"
-    script:
-    """
-    mkdir abricate
-    abricate \
-        --db vfdb "$ffn" > abricate/${id}_vfdb.tbl
-    abricate \
-        --db resfinder "$ffn\$" > abricate/${id}_resfinder.tbl
     """
 }
 
@@ -187,7 +170,7 @@ workflow {
     bakta_db = params.bakta_db ? file(params.bakta_db) : BAKTA_DB()
     BAKTA(samples, bakta_db)
 
-    GRODON(BAKTA.fnn)
+    GRODON(BAKTA.out.fnn)
 
     BARRNAP(samples)
 
@@ -195,5 +178,4 @@ workflow {
     // kofam_ko_list = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz")
     // KOFAMSCAN(samples, kofam_profiles)
 
-    DBCAN()
 }
