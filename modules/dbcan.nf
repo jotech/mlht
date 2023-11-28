@@ -39,15 +39,17 @@ process DBCAN_PREPARE {
 }
 
 process DBCAN_TASK {
+    //TODO: add param for signalP
     conda 'bioconda::dbcan'
 
     input:
-        tuple val(id), path(fna)
+        each sample
         path db
     output:
-        path outdir, name "database"
+        path outdir
     script:
-    outdir = "dbscan"
+    (id, fna) = sample
+    outdir = "dbcan"
     """
     run_dbcan "$fna" prok \
         --out_dir $outdir -c cluster \
@@ -55,10 +57,9 @@ process DBCAN_TASK {
         --pul $db/PUL.faa \
         --db_dir $db \
         --use_signalP=TRUE \
-        --signalP_path /zfshome/sukem066/software/signalp-4.1/signalp \
-        --hmm_cpu $taks.cpus \
-        --dia_cpu $taks.cpus \
-        --tf_cpu $taks.cpus \
-        --stp_cpu $taks.cpus
+        --hmm_cpu $task.cpus \
+        --dia_cpu $task.cpus \
+        --tf_cpu $task.cpus \
+        --stp_cpu $task.cpus
     """
 }
