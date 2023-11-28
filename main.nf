@@ -40,7 +40,8 @@ process EGGNOG_DB {
 }
 
 process BAKTA_DB {
-    conda 'bakta-env.yaml'
+    conda 'bakta==1.9.0'
+    // container "quay.io/biocontainers/bakta:1.8.2--pyhdfd78af_0"
 
     publishDir "dbs/", mode: 'copy'
 
@@ -55,22 +56,28 @@ process BAKTA_DB {
 
 process BAKTA {
     tag "$id"
-    conda 'bakta-env.yaml'
+    conda 'bakta==1.9.0'
+    // container "quay.io/biocontainers/bakta:1.8.2--pyhdfd78af_0"
 
-    publishDir "${params.output_dir}/bakta/", mode: 'copy'
+    memory '8 GB'
+
+    publishDir "${params.output_dir}/", mode: 'copy'
 
     input:
         tuple val(id), path(faa)
         path db
     output:
         path("*")
-        tuple val(id), path("*/*.fnn"), emit: fnn
+        tuple val(id), path("bakta/*.fnn"), emit: fnn
     script:
     """
+    unset PERL5LIB
+    unset PERL_LOCAL_LIB_ROOT
     bakta \
         --threads $task.cpus \
+        --skip-trna \
         --prefix "$id" \
-        --output . \
+        --output bakta \
         --db $db "$faa"
     """
 }
@@ -96,31 +103,6 @@ process KOFAMSCAN {
         -p profiles
         -k ko_list
         -o ${id}.txt "$faa"
-    """
-}
-
-process ANTISMASH {
-    conda 'bioconda::antismash'
-
-    publishDir "${params.output_dir}/", mode: 'copy'
-
-    input:
-        tuple val(id), path(fasta)
-    output:
-        path "antismash"
-    script:
-    """
-    mkdir -p antismash/$id
-    antismash \
-        --cb-general \
-        --cb-knownclusters \
-        --cb-subclusters \
-        --asf \
-        --pfam2go \
-        --cc-mibig \
-        --genefinding-tool prodigal -c $task.cpus \
-        --output-dir antismash/$id \
-        --output-basename $id $fasta
     """
 }
 
@@ -173,6 +155,8 @@ workflow {
     GRODON(BAKTA.out.fnn)
 
     BARRNAP(samples)
+
+    DBCAN(samples)
 
     // kofam_profiles = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz", type: 'file')
     // kofam_ko_list = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz")
