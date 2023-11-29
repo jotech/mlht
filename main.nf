@@ -61,14 +61,14 @@ process BAKTA {
 
     memory '8 GB'
 
-    publishDir "${params.output_dir}/", mode: 'copy'
+    publishDir "${params.output_dir}/bakta", mode: 'copy'
 
     input:
         tuple val(id), path(faa)
         path db
     output:
-        path("*")
-        tuple val(id), path("bakta/*.fnn"), emit: fnn
+        path("${id}/")
+        tuple val(id), path("$id/*.ffn"), emit: ffn
     script:
     """
     unset PERL5LIB
@@ -77,7 +77,7 @@ process BAKTA {
         --threads $task.cpus \
         --skip-trna \
         --prefix "$id" \
-        --output bakta \
+        --output $id \
         --db $db "$faa"
     """
 }
@@ -152,7 +152,7 @@ workflow {
     bakta_db = params.bakta_db ? file(params.bakta_db) : BAKTA_DB()
     BAKTA(samples, bakta_db)
 
-    GRODON(BAKTA.out.fnn)
+    GRODON(BAKTA.out.ffn)
 
     BARRNAP(samples)
 
