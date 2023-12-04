@@ -19,22 +19,20 @@
 
 # Getting started
 ## Prerequisites
-Nextflow is the main prerequisite to run this pipeline, to install it please follow the [installation guide](https://www.nextflow.io/docs/latest/getstarted.html). Apart from that, conda and a container provider such as docker or podman is required.
+Nextflow is the main prerequisite to run this pipeline, to install it please follow the [installation guide](https://www.nextflow.io/docs/latest/getstarted.html). Apart from that you will need to install the following tools:
+ 1. Conda environment: [conda](https://docs.conda.io/en/latest/miniconda.html)
+ 2. Container provider [docker](https://docs.docker.com/get-docker/), [podman](https://podman.io/getting-started/installation) or [singularity](https://sylabs.io/guides/3.0/user-guide/installation.html)
 
-## Installation and Usage
-1. Clone the repo
+## Usage
+To run this pipeline simply execute the following command. Additional parameters are described below.
    ```sh
-   git clone https://github.com/jotech/mlht.git
-   cd mlht
+   nextflow run jotech/mlht --samples samples.csv
    ```
-2. Run the pipeline
-  ```sh
-  nextflow run main.nf --samples samples.csv
-  ```
-# Parameters
-## Databases
+
+## Parameters
+#### Databases
 The first time you run the pipeline it will download the required databases to a folder called `dbs`. However, you can pass the databases as parameters to avoid the download step.
- 1. --bakta_db
- 2. --eggnog_db
- 3. --antismash_db
- 4. --platon_db
+ 1. `--bakta_db`
+ 2. `--eggnog_db`
+ 3. `--antismash_db`
+ 4. `--platon_db`
