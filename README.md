@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/jotech/mlht">
-    <img src="https://cdn12.picryl.com/photo/2016/12/31/bacteria-bacterium-neisseria-meningitidis-a4fd60-1024.png" alt="Logo" width="200" height="200">
+    <img src="assets/logo.png" alt="Logo" width="200" height="200">
   </a>
 
   <h3 align="center">Microbial Life History Traits</h3>
