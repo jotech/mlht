@@ -3,9 +3,14 @@ params.bakta_db = false
 params.eggnog_db = false
 params.output_dir = "out"
 
+include { PRODIGAL } from "./modules/prodigal"
 include { DBCAN } from "./subworkflows/dbcan"
 include { GRODON } from "./modules/grodon"
 include { BARRNAP } from "./modules/barrnap"
+include { ANTISMASH } from "./modules/antismash"
+include { ABRICATE } from "./modules/abricate"
+include { PLATON } from "./subworkflows/platon"
+
 
 process EGGNOG {
     conda 'bioconda::eggnog-mapper'
@@ -109,7 +114,7 @@ process KOFAMSCAN {
 process GUTSMASH {
     container "nmendozam/gutsmash"
     input:
-        tuple val(id), path(fasta)
+        tuple val(id), path(samples)
     output:
         path id
     script:
@@ -120,25 +125,9 @@ process GUTSMASH {
         --cb-knownclusters \
         --cb-general \
         --enable-genefunctions \
-        --output-dir $id $fasta
+        --output-dir $id $samples
     """
 }
-
-process PLATON {
-    // platon (plasmids)
-    conda 'platon'
-    input:
-    output:
-    script:
-    """
-    platon \
-        --db ~/dat/db/platon/db \
-        --threads $cores \
-        --output $output/platon "$id.fna"
-    """
-}
-
-
 
 workflow {
     samples = Channel
@@ -146,8 +135,12 @@ workflow {
         .splitCsv( header: true)
         .map { row -> tuple( row.id, file(row.file)) }
 
+    PRODIGAL(samples)
+    faa = PRODIGAL.out.faa
+    ffn = PRODIGAL.out.ffn
+
     eggnog_db = params.eggnog_db ? file(params.eggnog_db) : EGGNOG_DB()
-    // EGGNOG(samples, eggnog_db)
+    EGGNOG(faa, eggnog_db)
 
     bakta_db = params.bakta_db ? file(params.bakta_db) : BAKTA_DB()
     BAKTA(samples, bakta_db)
@@ -155,11 +148,14 @@ workflow {
     GRODON(BAKTA.out.ffn)
 
     BARRNAP(samples)
-
     DBCAN(samples)
 
     // kofam_profiles = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz", type: 'file')
     // kofam_ko_list = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz")
     // KOFAMSCAN(samples, kofam_profiles)
 
+    ABRICATE(ffn)
+    ANTISMASH(samples)
+    GUTSMASH(samples)
+    PLATON(samples)
 }
