@@ -13,6 +13,12 @@
     <a href="https://github.com/jotech/mlht/issues">Report Bug</a>
     ·
     <a href="https://github.com/jotech/mlht/issues">Request Feature</a>
+    ·
+    <a href="https://github.com/jotech/mlht">Paper</a>
+  </p>
+  <p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Logo_Kiel_University.svg/1200px-Logo_Kiel_University.svg.png" alt="Logo" height="50">
+    <img src="https://intake.ikmb.uni-kiel.de/static/images/ikmb_logo.png" alt="Logo" height="50">
   </p>
 </div>
 
@@ -37,7 +43,15 @@ The first time you run the pipeline it will download the required databases to a
  3. `--antismash_db`
  4. `--platon_db`
 
+## Further recommendations
+It is often useful to cache the conda environment to avoid downloading the same packages multiple times. To do so, you can set the following environment variable:
+```sh
+export NXF_CONDA_CACHEDIR=/path/to/conda/environment/cache/directory/
+```
+
 # Citation
 If you use this pipeline please cite the following paper:
+
+Zimmermann, J., Mendoza-Mejía N., et al. (2024). A new pipeline to identify microbial life history traits.
 
 **The paper is not yet published, please contact the authors of this repo for further information.**
