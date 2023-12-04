@@ -36,3 +36,8 @@ The first time you run the pipeline it will download the required databases to a
  2. `--eggnog_db`
  3. `--antismash_db`
  4. `--platon_db`
+
+# Citation
+If you use this pipeline please cite the following paper:
+
+**The paper is not yet published, please contact the authors of this repo for further information.**
