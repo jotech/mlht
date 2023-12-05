@@ -13,31 +13,7 @@ include { PLATON } from "./subworkflows/platon"
 include { EGGNOG } from "./subworkflows/eggnog"
 include { BAKTA } from "./subworkflows/bakta"
 include { GUTSMASH } from "./modules/gutsmash"
-include { KOFAMSCAN } from "./modules/kofamscan"
-
-process KOFAMSCAN {
-    conda 'bioconda::kofamscan'
-
-    publishDir "${params.output_dir}/kofam", mode: 'copy'
-
-    input:
-        tuple val(id), path(faa)
-        path profiles
-        path ko_list
-    output:
-        path "${id}.txt"
-    script:
-    """
-    tar -xvzf $profiles
-    gunzip $ko_list
-    exec_annotation \
-        --cpu $task.cpus
-        -f mapper
-        -p profiles
-        -k ko_list
-        -o ${id}.txt "$faa"
-    """
-}
+include { KOFAMSCAN } from "./sumworkflows/kofamscan"
 
 workflow {
     samples = Channel
@@ -57,9 +33,7 @@ workflow {
     BARRNAP(samples)
     DBCAN(samples)
 
-    // kofam_profiles = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz", type: 'file')
-    // kofam_ko_list = Channel.fromPath("ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz")
-    // KOFAMSCAN(samples, kofam_profiles)
+    KOFAMSCAN(samples)
 
     ABRICATE(ffn)
     ANTISMASH(samples)
