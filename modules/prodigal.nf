@@ -15,7 +15,7 @@ process PRODIGAL {
     prodigal \
         -i $fasta \
         -o /dev/null \
-        -a "$id.faa" \
-        -d "$id.ffn" \
+        -a "${id}.faa" \
+        -d "${id}.ffn" \
     """
 }

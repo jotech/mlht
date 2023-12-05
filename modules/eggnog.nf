@@ -9,6 +9,7 @@ process EGGNOG {
         tuple val(id), path(faa)
         path db
     output:
+        path "*"
     script:
     """
     emapper.py -i $faa -o "$id" \

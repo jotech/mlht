@@ -13,7 +13,7 @@ include { PLATON } from "./subworkflows/platon"
 include { EGGNOG } from "./subworkflows/eggnog"
 include { BAKTA } from "./subworkflows/bakta"
 include { GUTSMASH } from "./modules/gutsmash"
-include { KOFAMSCAN } from "./sumworkflows/kofamscan"
+include { KOFAMSCAN } from "./subworkflows/kofamscan"
 
 workflow {
     samples = Channel
@@ -25,7 +25,7 @@ workflow {
     faa = PRODIGAL.out.faa
     ffn = PRODIGAL.out.ffn
 
-    EGGNOG(samples)
+    EGGNOG(faa)
 
     BAKTA(samples)
     GRODON(BAKTA.out.ffn)

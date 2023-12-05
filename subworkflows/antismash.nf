@@ -11,7 +11,7 @@ workflow ANTISMASH {
     main:
 
     if (params.antismash_db) {
-        antismash_db = params.antismash_db
+        antismash_db = file(params.antismash_db)
     } else {
         antismash_db = ANTISMASH_DB()
     }

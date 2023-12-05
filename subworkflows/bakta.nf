@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
-include { BAKTA as BAKTA_TASK } from '../module/bakta'
-include { BAKTA_DB } from '../module/bakta'
+include { BAKTA as BAKTA_TASK } from '../modules/bakta'
+include { BAKTA_DB } from '../modules/bakta'
 
 params.bakta_db = false
 

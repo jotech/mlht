@@ -1,4 +1,3 @@
-
 #!/usr/bin/env nextflow
 
 process KOFAMSCAN_PROFILES {
@@ -18,7 +17,7 @@ process KOFAMSCAN_KO_LIST {
     publishDir "dbs/kofam"
 
     input:
-        path ko_list
+        path ko_list_gz
     output:
         path "ko_list", emit: ko_list
     script:

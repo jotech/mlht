@@ -5,8 +5,8 @@ include { EGGNOG_DB } from '../modules/eggnog'
 
 params.eggnog_db = false
 
-process EGGNOG {
-    take: samples
+workflow EGGNOG {
+    take: faa
 
     main:
 

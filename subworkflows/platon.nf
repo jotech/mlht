@@ -1,6 +1,7 @@
 #!/usr/bin/env nextflow
 
-include { PLATON_DB, PLATON as PLATON_TASK } from '../modules/platon'
+include { PLATON as PLATON_TASK } from '../modules/platon'
+include { PLATON_DB } from '../modules/platon'
 params.platon_db = false
 
 workflow PLATON {
@@ -15,8 +16,8 @@ workflow PLATON {
         platon_db = PLATON_DB(db_gz)
     }
 
-    PLATON(samples, plation_db)
+    PLATON_TASK(samples, platon_db)
 
     emit:
-        PLATON.out
+        PLATON_TASK.out
 }

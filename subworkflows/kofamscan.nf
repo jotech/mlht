@@ -4,8 +4,8 @@ include { KOFAMSCAN as KOFAMSCAN_TASK } from '../modules/kofamscan'
 include { KOFAMSCAN_PROFILES } from '../modules/kofamscan'
 include { KOFAMSCAN_KO_LIST } from '../modules/kofamscan'
 
-params.kofamscan_profiles = false
-params.kofamscan_ko_list = false
+params.kofam_profiles = false
+params.kofam_ko_list = false
 
 workflow KOFAMSCAN {
     take: samples

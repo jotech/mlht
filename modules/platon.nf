@@ -5,11 +5,13 @@ process PLATON_DB {
 
     publishDir "dbs/platon", mode: 'copy'
 
+    input:
+        path db_tar_gz
     output:
         path "db"
     script:
     """
-    tar -xzf db.tar.gz
+    tar -xzf $db_tar_gz
     """
 }
 

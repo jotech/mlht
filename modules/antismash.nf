@@ -4,7 +4,7 @@ process ANTISMASH_DB {
     conda 'bioconda::antismash'
     // container 'antismash/standalone-lite:7.1.0'
 
-    publishDir "dbs/antismash", mode: 'copy'
+    publishDir "dbs/", mode: 'copy'
 
     output:
         path "antismash"
