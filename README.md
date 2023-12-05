@@ -16,10 +16,6 @@
     ·
     <a href="https://github.com/jotech/mlht">Paper</a>
   </p>
-  <p>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Logo_Kiel_University.svg/1200px-Logo_Kiel_University.svg.png" alt="Logo" height="50">
-    <img src="https://intake.ikmb.uni-kiel.de/static/images/ikmb_logo.png" alt="Logo" height="50">
-  </p>
 </div>
 
 
@@ -46,9 +42,11 @@
 # About the project
 # Getting started
 ## Prerequisites
-Nextflow is the main prerequisite to run this pipeline, to install it please follow the [installation guide](https://www.nextflow.io/docs/latest/getstarted.html). Apart from that you will need to install the following tools:
- 1. Conda environment: [conda](https://docs.conda.io/en/latest/miniconda.html)
- 2. Container provider [docker](https://docs.docker.com/get-docker/), [podman](https://podman.io/getting-started/installation) or [singularity](https://sylabs.io/guides/3.0/user-guide/installation.html)
+This pipeline requires the bellow software to be installed, please click on the icons for the installation instructions.
+ 1. [![Nextflow][Nextflow]][Nextflow-url]
+ 2. [![Miniconda][Miniconda]][Miniconda-url]
+ 3. [![Docker]][Docker-url], [![Podman]][Podman-url] or [![Singularity]][Singularity-url]
+
 
 ## Usage
 To run this pipeline simply execute the following command. Additional parameters are described below.
@@ -76,3 +74,29 @@ If you use this pipeline please cite the following paper:
 Zimmermann, J., Mendoza-Mejía N., et al. (2024). A new pipeline to identify microbial life history traits.
 
 **The paper is not yet published, please contact the authors of this repo for further information.**
+
+<br />
+<div align="center">
+  <a href="https://www.uni-kiel.de/de/">
+    <img src="assets/cau-logo.png" alt="CAU" height="50">
+  </a>
+  <a href="https://www.ikmb.uni-kiel.de/">
+    <img src="assets/ikmb_logo.png" alt="IKMB" height="50">
+  </a>
+</div>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[Nextflow]: https://img.shields.io/badge/Nextflow-0dc09d
+[Nextflow-url]: https://www.nextflow.io/docs/latest/getstarted.html
+[Anaconda]: https://img.shields.io/badge/Anaconda-43b02a?logo=anaconda&logoColor=white
+[Anaconda-url]: https://docs.conda.io/en/latest/miniconda.html
+[Miniconda]: https://img.shields.io/badge/Miniconda-43b02a?logo=anaconda&logoColor=white
+[Miniconda-url]: https://docs.conda.io/en/latest/miniconda.html
+[Docker]: https://img.shields.io/badge/Docker-2496ed?logo=docker&logoColor=white
+[Docker-url]: https://docs.docker.com/get-docker/
+[Podman]: https://img.shields.io/badge/Podman-892CA0?logo=podman&logoColor=white
+[Podman-url]: https://podman.io/getting-started/installation
+[Singularity]: https://img.shields.io/badge/Singularity%20%28Apptiner%29-2496ed
+[Singularity-url]: https://apptainer.org/docs/user/main/quick_start.html
