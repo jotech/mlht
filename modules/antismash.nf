@@ -1,6 +1,6 @@
 process ANTISMASH_DB {
-    conda 'antismash==6.1.1'
-    container 'antismash/standalone-lite:7.1.0'
+    conda 'bioconda::antismash'
+    // container 'antismash/standalone-lite:7.1.0'
 
     publishDir "dbs/antismash", mode: 'copy'
 
@@ -16,8 +16,8 @@ process ANTISMASH_DB {
 process ANTISMASH {
     tag "$id"
 
-    conda 'antismash==6.1.1'
-    container 'antismash/standalone-lite:7.1.0'
+    conda 'bioconda::antismash'
+    // container 'antismash/standalone-lite:7.1.0'
 
     publishDir "${params.output_dir}/", mode: 'copy'
 
