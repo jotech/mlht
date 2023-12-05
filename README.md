@@ -23,6 +23,27 @@
 </div>
 
 
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#usage">Usage</a></li>
+        <li><a href="#parameters">Parameters</a></li>
+        <li><a href="#further-recommendations">Further recomendations</a></li>
+      </ul>
+    </li>
+    <li><a href="#citation">Citation</a></li>
+  </ol>
+</details>
+
+# About the project
 # Getting started
 ## Prerequisites
 Nextflow is the main prerequisite to run this pipeline, to install it please follow the [installation guide](https://www.nextflow.io/docs/latest/getstarted.html). Apart from that you will need to install the following tools:
