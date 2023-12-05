@@ -7,11 +7,13 @@ include { PRODIGAL } from "./modules/prodigal"
 include { DBCAN } from "./subworkflows/dbcan"
 include { GRODON } from "./modules/grodon"
 include { BARRNAP } from "./modules/barrnap"
-include { ANTISMASH } from "./modules/antismash"
+include { ANTISMASH } from "./subworkflows/antismash"
 include { ABRICATE } from "./modules/abricate"
 include { PLATON } from "./subworkflows/platon"
-include { EGGNOG } from "./modules/eggnog"
-include { BAKTA } from "./modules/bakta"
+include { EGGNOG } from "./subworkflows/eggnog"
+include { BAKTA } from "./subworkflows/bakta"
+include { GUTSMASH } from "./modules/gutsmash"
+include { KOFAMSCAN } from "./modules/kofamscan"
 
 process KOFAMSCAN {
     conda 'bioconda::kofamscan'
@@ -34,24 +36,6 @@ process KOFAMSCAN {
         -p profiles
         -k ko_list
         -o ${id}.txt "$faa"
-    """
-}
-
-process GUTSMASH {
-    container "nmendozam/gutsmash"
-    input:
-        tuple val(id), path(samples)
-    output:
-        path id
-    script:
-    """
-    gutsmash \
-        --cpus $task.cpus \
-        --genefinding-tool prodigal \
-        --cb-knownclusters \
-        --cb-general \
-        --enable-genefunctions \
-        --output-dir $id $samples
     """
 }
 

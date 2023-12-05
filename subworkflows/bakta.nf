@@ -1,3 +1,5 @@
+#!/usr/bin/env nextflow
+
 include { BAKTA as BAKTA_TASK } from '../module/bakta'
 include { BAKTA_DB } from '../module/bakta'
 
