@@ -1,3 +1,4 @@
+#!/usr/bin/env nextflow
 
 process DBCAN_PREPARE {
     conda 'bioconda::dbcan'

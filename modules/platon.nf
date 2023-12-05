@@ -1,3 +1,4 @@
+#!/usr/bin/env nextflow
 
 process PLATON_DB {
     conda 'platon'

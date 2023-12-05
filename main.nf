@@ -1,3 +1,5 @@
+#!/usr/bin/env nextflow
+
 params.samples = "samples.csv"
 params.bakta_db = false
 params.eggnog_db = false

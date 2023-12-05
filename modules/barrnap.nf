@@ -1,3 +1,5 @@
+#!/usr/bin/env nextflow
+
 process BARRNAP {
     conda 'barrnap-env.yaml'
 

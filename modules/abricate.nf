@@ -1,3 +1,4 @@
+#!/usr/bin/env nextflow
 
 process ABRICATE {
     conda 'abricate-env.yaml'

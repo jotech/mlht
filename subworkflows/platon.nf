@@ -1,3 +1,5 @@
+#!/usr/bin/env nextflow
+
 include { PLATON_DB, PLATON as PLATON_TASK } from '../modules/platon'
 params.platon_db = false
 

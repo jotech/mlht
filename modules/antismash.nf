@@ -1,3 +1,5 @@
+#!/usr/bin/env nextflow
+
 process ANTISMASH_DB {
     conda 'bioconda::antismash'
     // container 'antismash/standalone-lite:7.1.0'

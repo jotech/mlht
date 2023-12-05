@@ -1,3 +1,5 @@
+#!/usr/bin/env nextflow
+
 include { DBCAN_PREPARE } from '../modules/dbcan'
 include { DBCAN_TASK } from '../modules/dbcan'
 

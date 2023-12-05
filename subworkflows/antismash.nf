@@ -1,3 +1,5 @@
+#!/usr/bin/env nextflow
+
 include { ANTISMASH as ANTISMASH_TASK } from '../modules/antismash'
 include { ANTISMASH_DB } from '../modules/antismash'
 

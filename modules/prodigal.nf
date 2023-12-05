@@ -1,3 +1,5 @@
+#!/usr/bin/env nextflow
+
 process PRODIGAL {
     conda 'bioconda::prodigal'
 
