@@ -2,3 +2,4 @@ input
 .nextflow*
 work/
 dbs/
+out/
