@@ -4,10 +4,10 @@ process BAKTA_DB {
     conda 'bakta==1.9.0'
     // container "quay.io/biocontainers/bakta:1.8.2--pyhdfd78af_0"
 
-    publishDir "dbs/", mode: 'copy'
+    publishDir "dbs/", saveAs: { filename -> "bakta" }, mode: 'copy'
 
     output:
-        path "$outdir"
+        path "$outdir/db", 
     script:
     outdir = "bakta_db"
     """
