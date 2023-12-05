@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/jotech/mlht">
-    <img src="assets/logo.png" alt="Logo" width="200" height="200">
+    <img src="assets/bitmap.png" alt="Logo" height="200">
   </a>
 
   <h3 align="center">Microbial Life History Traits</h3>
