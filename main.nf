@@ -2,7 +2,6 @@
 
 params.samples = "samples.csv"
 params.bakta_db = false
-params.eggnog_db = false
 params.output_dir = "out"
 
 include { PRODIGAL } from "./modules/prodigal"
@@ -12,39 +11,7 @@ include { BARRNAP } from "./modules/barrnap"
 include { ANTISMASH } from "./modules/antismash"
 include { ABRICATE } from "./modules/abricate"
 include { PLATON } from "./subworkflows/platon"
-
-
-process EGGNOG {
-    conda 'bioconda::eggnog-mapper'
-
-    input:
-        tuple val(id), path(faa)
-        path db
-    output:
-    script:
-    """
-    emapper.py -i $faa -o "$id" \
-        --cpu $task.cpus \
-        --data_dir $db \
-        --override
-    """
-}
-
-process EGGNOG_DB {
-    conda 'bioconda::eggnog-mapper'
-
-    publishDir "dbs/", mode: 'copy'
-
-    output:
-        path "eggnog"
-    script:
-    """
-    mkdir -p eggnog
-    download_eggnog_data.py -y \
-        --data_dir eggnog
-    """
-
-}
+include { EGGNOG } from "./modules/eggnog"
 
 process BAKTA_DB {
     conda 'bakta==1.9.0'
@@ -141,8 +108,7 @@ workflow {
     faa = PRODIGAL.out.faa
     ffn = PRODIGAL.out.ffn
 
-    eggnog_db = params.eggnog_db ? file(params.eggnog_db) : EGGNOG_DB()
-    EGGNOG(faa, eggnog_db)
+    EGGNOG(samples)
 
     bakta_db = params.bakta_db ? file(params.bakta_db) : BAKTA_DB()
     BAKTA(samples, bakta_db)
