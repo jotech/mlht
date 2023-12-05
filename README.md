@@ -56,12 +56,38 @@ To run this pipeline simply execute the following command. Additional parameters
 
 ## Parameters
 #### Databases
-The first time you run the pipeline it will download the required databases to a folder called `dbs`. However, you can pass the databases as parameters to avoid the download step.
- 1. `--bakta_db`
- 2. `--eggnog_db`
- 3. `--antismash_db`
- 4. `--platon_db`
+The first time you run the pipeline it will download the required databases to a folder called `dbs`. Then, you can pass the databases as parameters to avoid the download step. This is how the databases are passed to the pipeline:
 
+ 1. Bakta:
+    ```
+    --bakta_db ./dbs/bakta
+    ```
+ 2. Eggnog:
+    ```
+    --eggnog_db ./dbs/eggnog
+    ```
+ 3. Antismash:
+    ```
+    --antismash_db ./dbs/antismash
+    ```
+ 4. Platon:
+    ```
+    --platon_db ./dbs/platon
+    ```
+ 5. dbCAN:
+    ```
+    --dbcan_db ./dbs/dbcan
+    ```
+ 6. Kofamscan:
+    ```
+    --kofam_profiles ./dbs/kofam/profiles --kofam_ko_list ./dbs/kofam/ko_list
+    ```
+
+The `dbs/` folder consist of symbolic links to the `work/` folder. If you would like to delete `work/` but keep the databases, you can do so by running the following command:
+```sh
+cp --dereference dbs/ hard_dbs/
+rm -f work/ && rm -f dbs/ && mv hard_dbs/ dbs/
+```
 ## Further recommendations
 It is often useful to cache the conda environment to avoid downloading the same packages multiple times. To do so, you can set the following environment variable:
 ```sh
