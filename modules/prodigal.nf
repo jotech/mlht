@@ -8,8 +8,8 @@ process PRODIGAL {
     input:
         tuple val(id), path(fasta)
     output:
-        tuple val(id), path("$id/*.ffn"), emit: ffn
-        tuple val(id), path("$id/*.faa"), emit: faa
+        tuple val(id), path("${id}.ffn"), emit: ffn
+        tuple val(id), path("${id}.faa"), emit: faa
     script:
     """
     prodigal \
