@@ -11,7 +11,7 @@ process GUTSMASH {
         path id
     script:
     """
-    gutsmash \
+    run_gutsmash.py \
         --cpus $task.cpus \
         --genefinding-tool prodigal \
         --cb-knownclusters \
