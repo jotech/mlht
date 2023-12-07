@@ -55,7 +55,15 @@ To run this pipeline simply execute the following command. Additional parameters
    ```
 
 ## Parameters
-#### Databases
+### --samples
+The input file must be in csv format with two columns, specifying the id and the path to the assembly file. The first line of the file must be a header. The following is an example of a valid input file:
+```
+id,file
+SAM-ID,/path/to/assembly.fasta
+```
+It is important to note that the id must be unique and cannot contain spaces. The path to the assembly file could be a local file or a remote file (e.g. ftp, http, etc.)
+
+### Databases
 The first time you run the pipeline it will download the required databases to a folder called `dbs`. Then, you can pass the databases as parameters to avoid the download step. This is how the databases are passed to the pipeline:
 
  1. Bakta:
