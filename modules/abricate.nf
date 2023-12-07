@@ -12,6 +12,6 @@ process ABRICATE {
     script:
     """
     abricate --db vfdb "$ffn" > ${id}_vfdb.tbl
-    abricate --db resfinder "$ffn\$" > ${id}_resfinder.tbl
+    abricate --db resfinder "$ffn" > ${id}_resfinder.tbl
     """
 }
