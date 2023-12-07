@@ -7,7 +7,7 @@ process BAKTA_DB {
     publishDir "dbs/", saveAs: { filename -> "bakta" }, mode: 'copy'
 
     output:
-        path "$outdir/db", 
+        path "$outdir/db"
     script:
     outdir = "bakta_db"
     """
