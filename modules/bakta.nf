@@ -34,6 +34,20 @@ process BAKTA {
     """
     unset PERL5LIB
     unset PERL_LOCAL_LIB_ROOT
+
+    # Check for out-of-memory errors and exit with the appropriate code
+    # This will help Nextflow to retry the task with more memory
+    check_err() {
+        error_output=\$(cat .command.err)
+        if [[ \$error_output =~ "-9" ]]; then
+            exit 127
+        else
+            exit 1
+        fi
+    }
+
+    trap 'check_err' ERR
+
     bakta \
         --threads $task.cpus \
         --skip-trna \
