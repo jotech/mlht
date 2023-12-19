@@ -21,7 +21,7 @@ process ANTISMASH {
     conda 'bioconda::antismash'
     // container 'antismash/standalone-lite:7.1.0'
 
-    publishDir "${params.output_dir}/", mode: 'copy'
+    publishDir "${params.output_dir}/antismash/", mode: 'copy'
 
     input:
         tuple val(id), path(fasta)
@@ -30,7 +30,6 @@ process ANTISMASH {
         path "antismash"
     script:
     """
-    mkdir -p antismash/$id
     antismash \
         --databases $db \
         --cb-general \
@@ -40,7 +39,7 @@ process ANTISMASH {
         --pfam2go \
         --cc-mibig \
         --genefinding-tool prodigal -c $task.cpus \
-        --output-dir antismash/$id \
+        --output-dir $id \
         --output-basename $id $fasta
     """
 }
