@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
-params.samples = "samples.csv"
-params.output_dir = "out"
+params.samples = "$baseDir/assets/samples.csv"
+params.output_dir = "results"
 
 include { PRODIGAL } from "./modules/prodigal"
 include { DBCAN } from "./subworkflows/dbcan"
