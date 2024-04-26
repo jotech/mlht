@@ -181,6 +181,7 @@ lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_kegg.flagellar.assembly=sum(grepl
 # signalling
 lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.quorum.sensing=sum(grepl("GO:0009372",GOs))), by=org], by="org")
 lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.signalling=sum(grepl("GO:0023052",GOs))), by=org], by="org")
+lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.histidine.kinase=sum(grepl("GO:0004673|GO:0009365",GOs))), by=org], by="org")
 lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_kegg.two.component.system=sum(grepl("map02020",KEGG_Pathway))), by=org], by="org")
 lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_kegg.quorum.sensing=sum(grepl("map02024",KEGG_Pathway))), by=org], by="org")
 

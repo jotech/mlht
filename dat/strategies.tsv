@@ -56,8 +56,25 @@ grodon_d	Minimal doubling time	ruderal	Fierer2017
 eggnog_kegg.chemotaxis	Chemotaxis			
 eggnog_cog.cat.P	Inorganic ion transport and metabolism			
 bakta_ncRNAs	non-coding RNA			
-eggnog_go.oxmotic.stress	Osmotic stress response			
+eggnog_go.osmotic.stress	Osmotic stress response			
 gapseq_meta.amine.polyamine.degradation	Amine and polyamine degradation			
 gapseq_meta.amine.polyamine.biosynthesis	Amine and polyamine biosynthesis			
 eggnog_kegg.secretion.systems	Secretion systems			
 eggnog_cog.cat.W	Cell wall/membrane/envelope biogenesis			
+eggnog_go.extracellular.region	Extracellular region (secretion)			
+eggnog_go.stress.response	Stress response			
+bakta_t3ss	Type III secretion systems			
+gapseq_meta.Enzyme-Test	Enzymatic test reactions			
+eggnog_kegg.quorum.sensing	Quorum sensing			
+vfdb_Immune.modulation	Immune system modulation			
+eggnog_go.membrane.protein.complex	Membrane protein complex			
+vfdb_Effector.delivery.system	Effector delivery system			
+eggnog_go.host.interactions	Host interaction processes			
+bakta_t2ss	Type II secretion systems			
+eggnog_cog.cat.K	Transcription 			
+eggnog_cog.cat.L	Replication, recombination and repair			
+grodon_CPB	Genome-wide codon pair bias			
+eggnog.hits	Proteins			
+bakta_Length	Genome size			
+eggnog.kegg.tc	Transporter			
+eggnog_go.heat.response	Heat response			
