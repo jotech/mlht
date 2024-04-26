@@ -269,5 +269,17 @@ lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.polyamine.metabolism=sum(grepl
 lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.polyamine.biosynthesis=sum(grepl("GO:0006596",GOs))), by=org], by="org")
 lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.polyamine.catabolism=sum(grepl("GO:0006598",GOs))), by=org], by="org")
 
+# general EC numbers
+eggnog.tmp2 <- dcast(data=eggnog.dt[,list(ec_class=unlist(str_extract(EC, "[1-6](?=\\.)"))),by=org], formula=org~ec_class, fun=length)[,-"NA"]
+colnames(eggnog.tmp2) <- ifelse(colnames(eggnog.tmp2)=="org","org", paste0("eggnog_ec.class.",colnames(eggnog.tmp2)))
+lht.dt <- merge(lht.dt, eggnog.tmp2, by="org")
+
+# redox
+lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.redox.activity=sum(grepl("GO:0016491",GOs))), by=org], by="org")
+lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.redox.homeostasis=sum(grepl("GO:0045454",GOs))), by=org], by="org")
+lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.redox.taxis=sum(grepl("GO:0009455",GOs))), by=org], by="org")
+lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.redox.sensing=sum(grepl("GO:0051776",GOs))), by=org], by="org")
+lht.dt <- merge(lht.dt, eggnog.dt[,list(eggnog_go.redox.reponse=sum(grepl("GO:0051775|GO:0071461",GOs))), by=org], by="org")
+
 
 fwrite(lht.dt, paste0(input.dir, "/lht.csv.gz"))
