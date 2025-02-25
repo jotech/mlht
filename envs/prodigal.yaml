@@ -1,0 +1,6 @@
+name: prodigal_env
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - prodigal

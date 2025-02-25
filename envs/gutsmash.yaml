@@ -1,0 +1,29 @@
+name: gutsmash
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - diamond=2.0.9 
+  - hmmer2 
+  - hmmer 
+  - fasttree
+  - prodigal 
+  - blast 
+  - muscle 
+  - glimmerhmm 
+  - cython 
+  - freetype 
+  - python=3.7
+  - biopython=1.76 
+  - helperlibs 
+  - bcbio-gff 
+  - pyscss 
+  - pysvg-py3 
+  - scikit-learn 
+  - matplotlib 
+  - pyscss 
+  - markupsafe 
+  - jinja2=2.11.1 
+  - moods 
+  - orjson 
+  - meme=4.11.2
