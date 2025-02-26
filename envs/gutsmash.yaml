@@ -13,7 +13,7 @@ dependencies:
   - glimmerhmm 
   - cython 
   - freetype 
-  - python=3.7
+  - python
   - biopython=1.76 
   - helperlibs 
   - bcbio-gff 
