@@ -1,3 +1,18 @@
+# Provide path of the folder where input files are present
+Snakefile: "/home/su85jox/Document/mlht/gscript/"
+
 Input:
-  fasta: "/home/su85jox/Document/mlht/gscript/data/bacSub.fna"
+  fasta: "/home/su85jox/Document/mlht/gscript/data/"
+  test: "/home/su85jox/Document/mlht/gscript/data/bacSub.fna" 
   
+CondaEnv:
+  #unzip: "envs/mlhp.yaml"
+  prodigal: "envs/prodigal.yaml"
+  eggnog: "envs/eggnog.yaml"
+  bakta: "envs/bakta.yaml"
+  barrnap: "envs/barrnap.yaml"
+  Kofamanscan: "envs/kofmanscan.yaml" 
+  abricate: "envs/abricate.yaml"
+  platon: "envs/platon.yaml"
+  antismash: "envs/antismash.yaml"
+
