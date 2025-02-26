@@ -1,13 +1,9 @@
 configfile: "config.yaml"
-
 import glob
 import os
 
-
 path = config['Input']['fasta']
 inpfile = glob.glob(f"{path}/*fna")
-print(inpfile)
-
 
 SAMPLE = []
 for file_path in inpfile:
@@ -15,9 +11,6 @@ for file_path in inpfile:
     name_without_extension = os.path.splitext(file_name)[0] 
     SAMPLE.append(name_without_extension)
 
-print(SAMPLE)  
-
-# SAMPLES = 'bacSub' 
 rule all:
     input:
         expand("outdir/{sample}/prodigal/{sample}.faa", sample=SAMPLE),
