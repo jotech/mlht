@@ -79,5 +79,5 @@ coord.lst <- list(c=c(-1,0), s=c(0,1), r=c(1,0))
 csr.coord <- lapply(csr.dt$csr, function(csr) Reduce("+",coord.lst[unlist(str_split(csr,","))]))
 csr.dt <- cbind(csr.dt, data.table(x=sapply(csr.coord, function(x) x[1]), y=sapply(csr.coord, function(x) x[2])))
 csr.dt[grepl(",",csr), `:=`(x=x/2, y=y/2)]
-p <- ggplot(csr.dt) + geom_jitter(width=0.05,height=0.05,aes(x=x,y=y)) + geom_polygon(data=data.frame(x=c(-1,1, 0), y=c(0,0,1)), aes(x=x,y=y), alpha=0.1, fill="blue") + annotate(geom="text", x=c(-1.1,0,1.1),y=c(0,1.05,0), label=c("S","C","R"), color="red", size=10) + xlab("") + ylab("") + theme_minimal(base_size=14)
+p <- ggplot(csr.dt) + geom_jitter(width=0.05,height=0.05,aes(x=x,y=y)) + geom_polygon(data=data.frame(x=c(-1,1, 0), y=c(0,0,1)), aes(x=x,y=y), alpha=0.1, fill="blue") + annotate(geom="text", x=c(-1.1,0,1.1),y=c(0,1.05,0), label=c("C","S","R"), color="red", size=10) + xlab("") + ylab("") + theme_minimal(base_size=14) + theme(panel.background = element_blank(), axis.text = element_blank(), axis.ticks = element_blank(), axis.title = element_blank(), panel.grid.minor = element_blank(), panel.grid.major = element_blank(), legend.position="none")
 ggsave(plot = p, filename = paste0("csr-", growth.type, ".pdf"))

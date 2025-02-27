@@ -32,7 +32,7 @@ fi
 if ! [[ -s "$output/eggnog/$id.emapper.annotations" ]]; then 
     conda activate eggnog
     mkdir -p $output/eggnog
-    emapper.py -i "$id.faa" -o "$id" --output_dir $output/eggnog --cpu $cores --data_dir $WORK/dat/db/eggnog/ --override
+    emapper.py -i "$id.faa" -o "$id" --output_dir $output/eggnog --cpu $cores --data_dir $WORK/dat/db/eggnog/ --override --go_evidence all
     conda deactivate
 fi
 
@@ -47,7 +47,7 @@ fi
 # codon usage bias (gRodon)
 if ! [[ -s "$output/grodon/$id.csv" ]]; then 
     mkdir -p $output/grodon
-    Rscript ~/uni/life_history/src/codon.R -i $output/bakta/$id/$id.ffn -o $output/grodon
+    Rscript ~/uni/mlht/src/codon.R -i $output/bakta/$id/$id.ffn -o $output/grodon
 fi
 
 # barrnap
@@ -62,7 +62,7 @@ fi
 if ! [[ -s "$output/dbcan/$id/overview.txt" ]]; then 
     conda activate dbcan
     mkdir -p $output/dbcan
-    run_dbcan "$id.fna" prok --out_dir "$output/dbcan/${id}" -c cluster --cgc_substrate --pul ~/dat/db/dbcan/PUL.faa --db_dir ~/dat/db/dbcan --use_signalP=TRUE --signalP_path /zfshome/sukem066/software/signalp-4.1/signalp --hmm_cpu $cores --dia_cpu $cores --tf_cpu $cores --stp_cpu $cores
+    run_dbcan "$id.fna" prok --out_dir "$output/dbcan/${id}" -c cluster --cgc_substrate --pul ~/dat/db/dbcan/PUL.faa --db_dir $WORK/dat/db/dbcan --use_signalP=TRUE --signalP_path /zfshome/sukem066/software/signalp-4.1/signalp --hmm_cpu $cores --dia_cpu $cores --tf_cpu $cores --stp_cpu $cores
     conda deactivate
 fi
 
@@ -70,7 +70,7 @@ fi
 if ! [[ -s "$output/kofam/$id.txt" ]]; then 
     conda activate kofam
     mkdir -p $output/kofam
-    exec_annotation --cpu $cores -f mapper -p ~/dat/db/kofam/profiles -k ~/dat/db/kofam/ko_list -o $output/kofam/$id.txt "$id.faa"
+    exec_annotation --cpu $cores -f mapper -p $WORK/dat/db/kofam/profiles -k $WORK/dat/db/kofam/ko_list -o $output/kofam/$id.txt "$id.faa"
     conda deactivate
 fi
 
@@ -103,5 +103,5 @@ fi
 if ! [[ -s "$output/platon/$id.log" ]]; then 
     conda activate platon
     mkdir -p $output/platon
-    platon --db ~/dat/db/platon/db --threads $cores --output $output/platon "$id.fna"
+    platon --db $WORK/dat/db/platon/db --threads $cores --output $output/platon "$id.fna"
 fi

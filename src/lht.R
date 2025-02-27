@@ -124,10 +124,12 @@ lht.dt <- merge(lht.dt, eggnog.tmp, by="org")
 #lht.dt <- merge(lht.dt, eggnog.tmp3, by="org")
 
 # platon
-platon.tmp <- platon.dt[,.(hits=.N, dbhits=sum(`# Plasmid Hits`), orfs=sum(`# ORFs`), amr=sum(`# AMRs`), replication=sum(`# Replication`),mobilization=sum(`# Mobilization`),conjugation=sum(`# Conjugation`), rrna=sum(`# rRNAs`), rds=mean(RDS)), by=org]
-colnames(platon.tmp) <- ifelse(colnames(platon.tmp)=="org","org", paste0("platon_",colnames(platon.tmp)))
-lht.dt <- merge(lht.dt, platon.tmp, by="org", all.x=T)
-lht.dt[is.na(lht.dt)] = 0 # set NA values from the merge of missing organisms to zero
+if(nrow(platon.dt)>0){
+  platon.tmp <- platon.dt[,.(hits=.N, dbhits=sum(`# Plasmid Hits`), orfs=sum(`# ORFs`), amr=sum(`# AMRs`), replication=sum(`# Replication`),mobilization=sum(`# Mobilization`),conjugation=sum(`# Conjugation`), rrna=sum(`# rRNAs`), rds=mean(RDS)), by=org]
+  colnames(platon.tmp) <- ifelse(colnames(platon.tmp)=="org","org", paste0("platon_",colnames(platon.tmp)))
+  lht.dt <- merge(lht.dt, platon.tmp, by="org", all.x=T)
+  lht.dt[is.na(lht.dt)] = 0 # set NA values from the merge of missing organisms to zero
+}
 
 # aerobic lifestyle
 lht.dt <- merge(lht.dt, gapseq.med.dt[,list(gapseq_o2=sum(grepl("cpd00007",compounds))),by=org], by="org")

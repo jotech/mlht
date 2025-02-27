@@ -142,6 +142,8 @@ if("grodon" %in% avail.dir){
 
 if("platon" %in% avail.dir){
     files.platon <- list.files(paste0(input.dir, "/platon"), pattern="*.tsv", full.names=T,recursive=F)
-    platon.dt <- rbindlist( Map(cbind, lapply(files.platon, data.table::fread), org = str_remove(basename(files.platon),".tsv")) )[!is.na(ID)]
+    if(length(files.platon)>0){
+        platon.dt <- rbindlist( Map(cbind, lapply(files.platon, data.table::fread), org = str_remove(basename(files.platon),".tsv")) )[!is.na(ID)]
+    }else platon.dt <- data.table()
     fwrite(platon.dt, paste0(input.dir, "/platon.csv.gz"))
 }
