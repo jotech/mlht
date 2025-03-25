@@ -1,0 +1,6 @@
+name: dbcan
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - dbcan=4.1.4

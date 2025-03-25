@@ -1,0 +1,6 @@
+name: platon
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - platon=1.7
