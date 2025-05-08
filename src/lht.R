@@ -3,8 +3,8 @@ library(methods)
 suppressMessages(library(stringr))
 suppressMessages(library(stringi))
 suppressMessages(library(data.table))
-#suppressMessages(library(cobrar))
-suppressMessages(library(sybil))
+suppressMessages(library(cobrar))
+#suppressMessages(library(sybil))
 options(error=traceback)
 
 # get options
@@ -106,7 +106,8 @@ gapseq.pwy.dt <- merge(gapseq.pwy.dt, db.meta[,.(id,hierarchy)], by.x="ID", by.y
 gapseq.tmp <- dcast(data=gapseq.pwy.dt[Prediction==TRUE, list(subsystem=str_extract(hierarchy, paste0(metacyc.subsystems,collapse="|"))), by=org], formula=org~subsystem, fun=length)
 colnames(gapseq.tmp) <- ifelse(colnames(gapseq.tmp)=="org","org", paste0("gapseq_meta.",colnames(gapseq.tmp)))
 lht.dt <- merge(lht.dt, gapseq.tmp, by="org")
-lht.dt <- merge(lht.dt, data.table(org=names(gapseq.models), gapseq_growth=sapply(gapseq.models, function(x) sybil::optimizeProb(x)@lp_obj)), by="org")
+#lht.dt <- merge(lht.dt, data.table(org=names(gapseq.models), gapseq_growth=sapply(gapseq.models, function(x) sybil::optimizeProb(x)@lp_obj)), by="org")
+lht.dt <- merge(lht.dt, data.table(org=names(gapseq.models), gapseq_growth=sapply(gapseq.models, function(x) cobrar::fba(x)@obj)), by="org")
 lht.dt <- merge(lht.dt, gapseq.cs.dt[status==TRUE, list(gapseq_cs=.N), by=org], by="org")
 lht.dt <- merge(lht.dt, gapseq.ferm.dt[status==TRUE, list(gapseq_ferm=.N), by=org], by="org")
 
